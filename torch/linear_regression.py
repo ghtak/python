@@ -93,10 +93,37 @@ def multiple_linear_regression_train():
             ))
 
 
-def nn_module():
+class LinearModel(nn.Module):
+    def __init__(self, inp, out) -> None:
+        super().__init__()
+        self.linear = nn.Linear(inp, out)
+
+    def forward(self, x):
+        return self.linear(x)
+
+
+def single_nn():
     x_train = torch.FloatTensor([[1], [2], [3]])
     y_train = torch.FloatTensor([[2], [4], [6]])
-    model = nn.Linear(1, 1)
+    # model = nn.Linear(1, 1)
+    model = LinearModel(1, 1)
+    return x_train, y_train, model
+
+
+def multiple_nn():
+    x_train = torch.FloatTensor([[73, 80, 75],
+                                 [93, 88, 93],
+                                 [89, 91, 90],
+                                 [96, 98, 100],
+                                 [73, 66, 70]])
+    y_train = torch.FloatTensor([[152], [185], [180], [196], [142]])
+    #model = nn.Linear(3, 1)
+    model = LinearModel(3, 1)
+    return x_train, y_train, model
+
+
+def nn_module():
+    x_train, y_train, model = multiple_nn()
     '''
     print(list(model.parameters()))
     [Parameter containing: tensor([[0.5153]], requires_grad=True), -> W 
@@ -106,7 +133,7 @@ def nn_module():
     [Parameter containing:tensor([[ 0.2975, -0.2548, -0.1119]], requires_grad=True), -> w
     Parameter containing:tensor([0.2710], requires_grad=True)] -> b
     '''
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+    optimizer = torch.optim.SGD(model.parameters(), lr=1e-5)
     nb_epochs = 2000
     for epoch in range(nb_epochs+1):
 
@@ -129,6 +156,7 @@ def nn_module():
             print('Epoch {:4d}/{} Cost: {:.6f}'.format(
                 epoch, nb_epochs, cost.item()
             ))
+    print(list(model.parameters()))
 
 
 if __name__ == '__main__':
