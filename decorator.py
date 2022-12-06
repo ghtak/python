@@ -37,6 +37,20 @@ def managed_resource2():
     close_res = res
 
 
+def class_func_deco(func, *args, **kwargs):
+    def f(self, *args, **kwargs):
+        print("Deco0")
+        func(self, *args, **kwargs)
+        print("Deco1")
+    return f
+
+
+class Foo:
+    @class_func_deco
+    def bar(self):
+        print("foo bar")
+
+
 '''
 class GeneratorContextManager(object):
 
@@ -89,6 +103,10 @@ class TesteDeco(unittest.TestCase):
 
         with managed_resource2() as v:
             self.assertEqual(v, 81)
+
+    def test_foobar(self):
+        foo = Foo()
+        foo.bar()
 
 
 if __name__ == '__main__':
