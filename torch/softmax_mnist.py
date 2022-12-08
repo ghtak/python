@@ -34,10 +34,17 @@ def get_datasets():
 
 if __name__ == '__main__':
     set_seed()
+    
+    if torch.backends.mps.is_built() and torch.backends.mps.is_available():
+        device = torch.device('mps')
+    elif torch.cuda.is_available():
+        device = torch.device('cuda')
+    else:
+        device = torch.device('cpu')
 
-    use_cuda = torch.cuda.is_available()
-    device = torch.device('cuda' if use_cuda else 'cpu')
-
+    # use_cuda = torch.cuda.is_available()
+    # device = torch.device('cuda' if use_cuda else 'cpu')
+    print(device)
     nb_epochs = 15
     batch_size = 100
 
