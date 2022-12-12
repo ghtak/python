@@ -64,5 +64,19 @@ class TestGeneDeco(unittest.TestCase):
         self.assertListEqual(expected, [i for i in holder])
 
 
+def sum(max):
+    tot = 0
+    for i in range(max):
+       tot += i
+       yield tot # to caller
+    return tot # to parent 
+
+
+def coroutine():
+    x = yield from sum(10)
+    print('Total: {}'.format(x))
+
 if __name__ == '__main__':
-    unittest.main()
+    for v in coroutine():
+        print(v)
+    # unittest.main()
