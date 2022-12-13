@@ -14,7 +14,7 @@ def set_seed():
         torch.cuda.manual_seed(81)
 
 
-def get_datasets():
+def get_datasets(batch_size=100):
     # MNIST
     mnist_train = dsets.MNIST(root='MNIST_data/',
                               train=True,
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     nb_epochs = 15
     batch_size = 100
 
-    mnist_train, mnist_test, data_loader = get_datasets()
+    mnist_train, mnist_test, data_loader = get_datasets(batch_size)
 
     linear = nn.Linear(784,10, bias=True).to(device)
     criterion = nn.CrossEntropyLoss().to(device)

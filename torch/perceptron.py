@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from sklearn.datasets import load_digits
 
 
-
 def xor_perceptron():
     device = torch_available_device()
     # xor
@@ -14,12 +13,12 @@ def xor_perceptron():
     #model = nn.Sequential(nn.Linear(2,1), nn.Sigmoid()).to(device)
 
     model = nn.Sequential(
-        nn.Linear(2,2),
+        nn.Linear(2, 2),
         nn.Sigmoid(),
-        nn.Linear(2,1),
+        nn.Linear(2, 1),
         nn.Sigmoid()
     ).to(device)
-    criterion = nn.BCELoss().to(device) 
+    criterion = nn.BCELoss().to(device)
     optim = torch.optim.SGD(model.parameters(), lr=0.5)
     for step in range(10001):
         out = model(X)
@@ -27,9 +26,9 @@ def xor_perceptron():
         optim.zero_grad()
         cost.backward()
         optim.step()
-        if step % 100 == 0: # 100번째 에포크마다 비용 출력
+        if step % 100 == 0:  # 100번째 에포크마다 비용 출력
             print(step, cost.item())
-    
+
     with torch.no_grad():
         out = model(X)
         predicted = (out > 0.5).float()
@@ -42,7 +41,7 @@ def xor_perceptron():
 
 def multiple_layer_perceptron():
     device = torch_available_device()
-    digits = load_digits() 
+    digits = load_digits()
     X = torch.FloatTensor(digits.data).to(device)
     Y = torch.LongTensor(digits.target).to(device)
     '''
@@ -64,11 +63,11 @@ def multiple_layer_perceptron():
     '''
 
     model = nn.Sequential(
-        nn.Linear(64, 32), # input_layer = 64, hidden_layer1 = 32
+        nn.Linear(64, 32),  # input_layer = 64, hidden_layer1 = 32
         nn.ReLU(),
-        nn.Linear(32, 16), # hidden_layer2 = 32, hidden_layer3 = 16
+        nn.Linear(32, 16),  # hidden_layer2 = 32, hidden_layer3 = 16
         nn.ReLU(),
-        nn.Linear(16, 10) # hidden_layer3 = 16, output_layer = 10
+        nn.Linear(16, 10)  # hidden_layer3 = 16, output_layer = 10
     ).to(device)
 
     # model.apply(xavier_uniform)
@@ -95,11 +94,11 @@ def multiple_layer_perceptron():
             ))
 
         losses.append(loss.item())
-        
+
     plt.plot(losses)
     plt.show()
 
-    
+
 if __name__ == '__main__':
     torch_manual_seed(81)
     multiple_layer_perceptron()
