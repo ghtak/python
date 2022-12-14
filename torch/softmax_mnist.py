@@ -16,9 +16,13 @@ def set_seed():
 
 def get_datasets(batch_size=100):
     # MNIST
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(0.5, 0.5)])
+
     mnist_train = dsets.MNIST(root='MNIST_data/',
                               train=True,
-                              transform=transforms.ToTensor(),
+                              transform=transform,
                               download=True)
 
     mnist_test = dsets.MNIST(root='MNIST_data/',
